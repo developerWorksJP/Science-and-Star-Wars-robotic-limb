@@ -1,49 +1,67 @@
 
-# Science and Star Wars Robotic Arm Demo
+# 科学とスターウォーズロボットアームデモ
 
-## Overview
 
-This demo will help you to build your own robot arm and control it through voice commands with Watson Speech-to-Text and Watson Conversation services.  We will leverage Node-RED, a visual tool for the Internet of Things and the PhantomX Reactor Arm from Trodden Robotics. The PhantomX was designed with entry-level research and university use in mind providing one of the highest featured consumer robotic arms on the market. The Phantom X arm can be <a href="http://www.trossenrobotics.com/p/phantomx-ax-12-reactor-robot-arm.aspx">ordered here</a>. This demo uses the ‘No Wrist Rotate’ kit type, but the ‘W/ Wrist Rotate’ type can be supported by editing the provided code.
+## 概要
 
-## Getting Started
+このデモでは、ワトソンのSpeech-to-TextおよびWatson Conversationサービスを使用して、独自のロボットアームを構築し、音声コマンドで制御する方法をご紹介します。 IoTのための視覚的ツールであるNode-REDとTrodden RoboticsのPhantomX Reactor Armを活用します。 PhantomXは、エントリーレベルの研究と大学での使用を想定して設計されており、市販されている最も高性能なロボットアームを提供しています。 ファントムXアームは<a href="http://www.trossenrobotics.com/p/phantomx-ax-12-reactor-robot-arm.aspx">ここ</a>で注文できます。 このデモでは、「No Wrist Rotate」キットタイプを使用していますが、「W / Wrist Rotate」タイプは、指定されたコードを編集することでサポートできます。
 
-### Setting up your ArbotiX & Arduino Software
-Once you have the arm, follow the ArbotiX Robocontroller <a href="http://learn.trossenrobotics.com/arbotix/arbotix-quick-start.html">Getting Started Guide</a> to setup and program your Arbotix-M Robocontroller.
 
-### Set Dynamic IDs
+## 開始する
 
-Before starting to assemble the arm, you will need to set DYNAMIC IDs for all servos. You can learn how to ID servos <a href="http://learn.trossenrobotics.com/index.php/getting-started-with-the-arbotix/1-using-the-tr-dynamixel-servo-tool#&panel1-1">here</a>. If you have an issue with the DynaManager, There are alternative options like using Arduino library, <a href="https://github.com/zcshiner/Dynamixel_Serial">Dynamixal Serial</a>.
+### ArbotiX & Arduinoソフトウェアをセットアップする
+アームを手に入れたら、ArbotiX Robocontroller<a href="http://learn.trossenrobotics.com/arbotix/arbotix-quick-start.html">入門ガイド</a>に従ってArbotix-M Robocontrollerをセットアップしてプログラミングしてください。
 
-### Assemble your robot
 
-Follow the detailed instructions for assembling the arm using <a href="http://learn.trossenrobotics.com/projects/165-phantomx-reactor-arm-assembly-guide.html">Trossen’s Assembly Guide</a>. Trossen Robotics provides a <a href="http://learn.trossenrobotics.com/interbotix/robot-arms/17reactor-robot-arm/26-phantomx-reactor-robot-arm-build-check">test program</a> to make sure your robot has been programmed and assembled correctly.
+### Dynamic IDをセットする
 
-### Upload code to the arm
+アームを組み立てる前に、すべてのサーボにダイナミックIDを設定する必要があります。<a href="http://learn.trossenrobotics.com/index.php/getting-started-with-the-arbotix/1-using-the-tr-dynamixel-servo-tool#&panel1-1">ここで</a>IDサーボの方法を学ぶことができます。 DynaManagerに問題がある場合は、Arduinoライブラリ、<a href="https://github.com/zcshiner/Dynamixel_Serial">Dynamixal Serial</a>などの代替オプションがあります。
 
-Download or clone the arduino code within the robotic-arm folder and upload to the Robot Arm. Once the robot is programmed and powered, it moves to center position as ‘Stand by’ pose.
 
-The Serial Monitor on Arduino should display control options as below. Type a number for each control then you’ll see each action on your arm. Make sure you have ‘9600 baud' for the serial command sender option.
+### あなたのロボットを組み立てる
+
+<a href="http://learn.trossenrobotics.com/projects/165-phantomx-reactor-arm-assembly-guide.html">Trossen’s Assembly Guide</a>を使用してアームを組み立てるための詳細な指示に従ってください。 Trossen Roboticsは、ロボットが正しくプログラムされ、正しく組み立てられていることを確認するための<a href="http://learn.trossenrobotics.com/interbotix/robot-arms/17reactor-robot-arm/26-phantomx-reactor-robot-arm-build-check">テストプログラム</a>を提供しています。
+
+ 
+### アームにコードをアップロードする
+
+ロボットアームフォルダー内のarduinoコードをダウンロードまたはクローンし、ロボットアームにアップロードします。ロボットがプログラムされ、動力を与えられると、ロボットは「待機」姿勢として中心位置に移動します。
+
+Arduinoのシリアルモニタには以下のような制御オプションが表示されます。各コントロールの番号を入力すると、あなたの腕に各アクションが表示されます。シリアルコマンド送信オプションとして「9600ボー」があることを確認してください。
 
 ![screenshot_351](https://user-images.githubusercontent.com/4265959/32201985-175e315c-bdb0-11e7-92ab-e751fb67fd90.png)
 
 
 
-## Create an IBM Cloud account
+## IBM Cloudアカウントを作成する
 
-* <a href="https://console.ng.bluemix.net/registration/?target=/catalog/%3fcategory=watson">Sign up</a> in IBM Cloud, or use an existing account. Your account must have available space for at least 1 app and 1 service.
-    
-* Make sure that you have the following prerequisites installed:
-    * The [Node.js](https://nodejs.org/#download) runtime, including the [npm][npm_link] package manager
-    * The Cloud Foundry command-line client
+* IBM Cloudに<a href="https://console.ng.bluemix.net/registration/?target=/catalog/%3fcategory=watson">登録</a>するか、既存のアカウントを使用してください。 アカウントには、少なくとも1アプリと1サービスの空き容量が必要です。
+ 
+ 
+* 以下の前提条件が満たされていることを確認してください。
 
-      Note: Ensure that you Cloud Foundry version is up to date
+         [npm] [npm_link]パッケージマネージャを含むNode.jsランタイム
+
+         Cloud Foundryコマンドラインクライアント
+
+         注：Cloud Foundryのバージョンが最新のものであることを確認してくださいMake sure that you have the following prerequisites installed:
+    * [npm][npm_link]パッケージマネージャーを含む、[Node.js](https://nodejs.org/#download)ランタイム
+    * Cloud Foundryコマンドラインクライアント
+
+      Note: Cloud Foundryのバージョンが最新のものであることを確認してください。
 
 
-### Setting up the Conversation service
+### 会話サービスの設定
 
-You can use an exisiting instance of the Conversation service. Otherwise, follow these steps.
+会話サービスの既存のインスタンスを使用できます。 それ以外の場合は、次の手順を実行します。
 
-1. Connect to IBM Cloud with the Cloud Foundry command-line tool. For more information, see the Watson Developer Cloud <a href="https://console.bluemix.net/docs/cli/reference/bluemix_cli/get_started.html#getting-started">documentation</a>.
+     
+     cf login
+
+     IBM Cloudで会話サービスのインスタンスを作成します。 例えば：
+
+1. Cloud Foundryのコマンドライン・ツールを使用してIBM Cloudに接続します。 詳細については、Watson Developer Cloudの<a href="https://console.bluemix.net/docs/cli/reference/bluemix_cli/get_started.html#getting-started">ドキュメント</a>.
+を参照してください。
 
     ```bash
     cf login
@@ -55,7 +73,7 @@ You can use an exisiting instance of the Conversation service. Otherwise, follow
     cf create-service conversation free my-conversation-service
     ```
 
-### Importing the Conversation workspace
+### 会話ワークスペースの読み込み
 
 1. In your browser, navigate to your IBM Cloud <a href="https://console.ng.bluemix.net/dashboard/services">console</a>.
 

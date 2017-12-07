@@ -55,11 +55,6 @@ Arduinoのシリアルモニタには以下のような制御オプションが�
 
 会話サービスの既存のインスタンスを使用できます。 それ以外の場合は、次の手順を実行します。
 
-     
-     cf login
-
-     IBM Cloudで会話サービスのインスタンスを作成します。 例えば：
-
 1. Cloud Foundryのコマンドライン・ツールを使用してIBM Cloudに接続します。 詳細については、Watson Developer Cloudの<a href="https://console.bluemix.net/docs/cli/reference/bluemix_cli/get_started.html#getting-started">ドキュメント</a>.
 を参照してください。
 
@@ -67,7 +62,7 @@ Arduinoのシリアルモニタには以下のような制御オプションが�
     cf login
     ```
 
-2. Create an instance of the Conversation service in IBM Cloud. For example:
+2. IBM Cloudで会話サービスのインスタンスを作成します。 例えば：
 
     ```bash
     cf create-service conversation free my-conversation-service
@@ -75,25 +70,25 @@ Arduinoのシリアルモニタには以下のような制御オプションが�
 
 ### 会話ワークスペースの読み込み
 
-1. In your browser, navigate to your IBM Cloud <a href="https://console.ng.bluemix.net/dashboard/services">console</a>.
+1. ブラウザーで、IBM Cloud<a href="https://console.ng.bluemix.net/dashboard/services">コンソール</a>にナビゲートします。 
 
-2. From the **All Items** tab, click the newly created Conversation service in the **Services** list.
+2.**[すべてのアイテム]**タブで、**[サービス]**リストで新しく作成した会話サービスをクリックします。
 
-3. On the Service Details page, click **Launch tool**.
+3.サービスの詳細ページで、**[起動ツール]**をクリックします。
 
-4. Click the **Import workspace** icon in the Conversation service tool. Specify the location of the workspace JSON file in your local copy of the app project:
+4.会話サービスツールの**[ワークスペースのインポート]**アイコンをクリックします。アプリケーションプロジェクトのローカルコピーにワークスペースJSONファイルの場所を指定します：
 
     `<project_root>/workspace-robot-arm.json`
 
-5. Select **Everything (Intents, Entities, and Dialog)** and then click **Import**. The robot arm workspace is created.
+5.**Everything (Intents, Entities, and Dialog)**を選択し、**Import**をクリックします。ロボットアームワークスペースが作成されます。
 
-6. Retrieve the credentials from the service key using the command `cf service-key <service_instance> <service_key>`. For example:
+6. `cf service-key <service_instance> <service_key>`コマンドを使用して、サービスキーから資格情報を取得します。例えば：
 
     ```bash
     cf service-key my-conversation-service myKey
     ```
 
-   The output from this command is a JSON object, as in this example:
+   このコマンドの出力は、次の例のようにJSONオブジェクトです。
 
     ```JSON
     {
@@ -103,9 +98,9 @@ Arduinoのシリアルモニタには以下のような制御オプションが�
     }
     ```
 
-7. Paste  the `password` and `username` values (without quotation marks) from the JSON into a scratch file for use within Node-RED.
+7. Node-REDで使用するために、JSONの`password`と`username`の値（引用符は不要）をスクラッチファイルに貼り付けます。
 
-8. Create a Speech-to-Text service instance and retrieve service keys to access the service:
+8. Speech-to-Textサービスインスタンスを作成し、サービスにアクセスするためのサービスキーを取得します。
 
   ```none
   cf create-service speech_to_text standard robot-stt-service
@@ -113,55 +108,56 @@ Arduinoのシリアルモニタには以下のような制御オプションが�
   cf service-key robot-stt-service myKey
   ```
 
-9. Save  the `password` and `username` values (without quotation marks) for your credentials into a scratch file for use within Node-RED.
+9. Node-RED内で使用するために、資格情報の`password`と`username`の値（引用符は不要）をスクラッチファイルに保存します。
 
 
-## Setup Node-RED with IBM Watson
+## IBM WatsonでNode-REDをセットアップする
 
-Node-RED is a visual programing tool that you can use to develop your applications, devices and gateways on IBM Watson IoT platform. Node-RED provides capabilities for connecting hardware, APIs and online services in new and interesting ways.
+Node-REDは、IBM Watson IoTプラットフォームでアプリケーション、デバイス、およびゲートウェイを開発するために使用できるビジュアル・プログラミング・ツールです。 Node-REDは、ハードウェア、API、およびオンラインサービスを新規かつ興味深い方法で接続するための機能を提供します。
 
-Node-RED is built on top of Node.js so you need to install both Node JS and Node-RED on your computer. Please follow this <a href="https://nodered.org/docs/getting-started/installation">Installation guide</a>. After done, restart your computer.
+Node-REDはNode.jsの上に構築されているため、コンピュータにNode JSとNode-REDの両方をインストールする必要があります。 この<a href="https://nodered.org/docs/getting-started/installation">インストールガイド</a>に従ってください。 完了したら、コンピュータを再起動します。
 
-Open Terminal application and type ‘node-red’. This would launch Node-Red.
+ターミナルアプリケーションを開き、 'node-red'と入力します。 これはNode-Redを起動します。
+
 ```bash
     node-red
    ```
    
+「Server now running at http://127.0.0.1:1880/“」のようなサーバIPアドレスが表示されます。ノードREDが実行されると、ブラウザにIPアドレスを指定することでアクセスできます。
 
-You’ll see a Server IP Address like  " Server now running at http://127.0.0.1:1880/“. Once Node-RED is running, you can access it by pointing your browser at the IP Address. 
 
-### Install Required Nodes
+### 必要なノードをインストールする
 
-You need to install several Nodes to use Watson with your robot arm. Click the hamburger menu on top-right side and choose ‘Manage palette’.
+ワトソンをロボットアームで使用するには、いくつかのノードをインストールする必要があります。右上のハンバーガーメニューをクリックし、 'パレットの管理'を選択します。
 
-Click ‘Install’ tap and type 'node-red-node-watson’ in the search bar. The search screen would show ‘ node-red-node-watson’ node. Install it by clicking a ‘Install’ button.
+[インストール]をクリックし、検索バーに「node-red-node-watson」と入力します。検索画面に「node-red-node-watson」ノードが表示されます。 「インストール」ボタンをクリックしてインストールしてください。
 
-After installing 'node-red-node-watson’ node successfully, you’ll see installed nodes under ‘IBM Watson’ category.
+'node-red-node-watson'ノードを正常にインストールすると、 'IBM Watson'カテゴリの下にインストールされたノードが表示されます。
 
-Install 'node-red-contrib-browser-utils’ and  'node-red-node-serialport' node in the same way.
+同じ方法で 'node-red-contrib-browser-utils'と 'node-red-node-serialport'ノードをインストールしてください。
 
-You’ll see a ‘Serial’ node and ‘microphone’ node are added in the ‘input’ category. 
+「入力」カテゴリに「シリアル」ノードと「マイク」ノードが追加されています。
 
-### Set a flow
 
-Now create a flow by adding nodes. Drag and drop an ‘microphone’ node on the flow editor. Then insert a ‘speech to text’ node. Double click the ‘speech to text’ node and set enter your credentials for the service. Uncheck ‘Speaker Labels’ and check ‘Place output on msg.payload’ option.
+### フローを設定する
 
-Connect the ‘microphone’ node and ’speech to text’ nodes. Insert a ‘conversation’ node on the flow editor, then double click and add your credentials for the Conversation service.
+ここで、ノードを追加してフローを作成します。 「マイク」ノードをドラッグしてフローエディタにドロップします。次に、「speech to text」ノードを挿入します。 'speech to text'ノードをダブルクリックして、サービスの資格情報を入力します。 'Speaker Labels'のチェックをはずし、 'msg.payloadに出力を置く'オプションをオンにします。
 
-Add Conversation to the connected chain you already have, after Speech-to-Text. Insert a ‘function’ node and set up function as below. This would save a recorded voice command and an arm action translated by Watson into msg.preload.
+「マイク」ノードと「スピーチをテキストにする」ノードを接続します。フローエディタに「会話」ノードを挿入し、ダブルクリックして会話サービスの資格情報を追加します。
+
+Speech-to-Textの後、既に持っている接続チェーンに会話を追加します。以下のように、「関数」ノードを挿入して関数を設定します。これにより、記録された音声コマンドとWatsonによって翻訳されたアームアクションがmsg.preloadに保存されます。
 
 ```
 msg.payload = {"speech":msg.payload.input.text, "action":msg.payload.context.arm_action};
 return msg;
 ```
+アクションハンドラの後にデバッグノードを挿入します。
 
-Insert a debug node after your Action Handler.
-
-Click on the deploy button on the right corner. The flow should now be working. Click the ‘microphone’ node to start recording a speech, then speak ‘body left’ to your microphone. Click the ‘microphone’ node again to stop recording. Once the audio has been processed through the entire flow, you should see a debug result at the debug’ panel.
+右端にある展開ボタンをクリックします。フローが動作するはずです。スピーチの録音を開始するには、「マイク」ノードをクリックしてから、マイクに向かって「ボディーを左に」話してください。もう一度[マイク]ノードをクリックして録音を停止します。オーディオがフロー全体で処理されると、デバッグパネルにデバッグ結果が表示されます。
 
 ![screenshot_331](https://user-images.githubusercontent.com/4265959/32201966-15f02e60-bdb0-11e7-9ac2-02df597dd253.png)
 
-Now it’s time to add more nodes to control the robot arm. Insert a ‘function’ node and set up function as below. This will convert each action call from Waston to a number.
+今度は、ロボットアームを制御するためにノードを追加します。 以下のように、「関数」ノードを挿入して関数を設定します。 これは、Wastonからの各アクション呼び出しを数値に変換します。
 
 ```
 var action = msg.payload.context.arm_action;
@@ -183,20 +179,19 @@ else msg.payload = "-1";
 return msg;
 ```
 
-Insert a ‘switch’ node and setup function as below. This switch will handle action data from previous function node.
+以下のように 'スイッチ'ノードとセットアップ機能を挿入します。 このスイッチは、前の関数ノードからのアクションデータを処理します。
 
 ![screenshot_333](https://user-images.githubusercontent.com/4265959/32201964-15c0d688-bdb0-11e7-93c8-5d61bdd9a6a0.png)
 
-Insert a ‘serial’ node then click the ‘edit’ button to register a connected XBee-USB Converter. Make sure your XBee-USB converter is connected to your computer. Click search to find the connected XBee-USB converter.
-Choose ‘/dev/cu.usbserial-XXXXXX’ from the list and setup settings as follows.
+「シリアル」ノードを挿入し、「編集」ボタンをクリックして、接続されたXBee-USBコンバータを登録します。 XBee-USBコンバータがコンピュータに接続されていることを確認してください。 検索をクリックすると、接続されているXBee-USBコンバータが見つかります。 リストから「/dev/cu.usbserial-XXXXXX」を選択し、次のように設定します。
 
 ![screenshot_345-2](https://user-images.githubusercontent.com/4265959/32201961-157f6c0c-bdb0-11e7-9d1c-c650ea08b031.png)
 
-Connect the new nodes and click the Deploy button. A ‘connected’ message would appear under the serial node as soon as a connected XBee-USB converter is found. If it doesn’t connect via Serial port, check previous steps.
+新しいノードを接続し、「Deploy」ボタンをクリックします。 接続されたXBee-USBコンバータが見つかるとすぐに、シリアルノードの下に「接続された」メッセージが表示されます。 シリアルポート経由で接続しない場合は、前の手順を確認してください。
 
 ![screenshot_344](https://user-images.githubusercontent.com/4265959/32201960-156bcd5a-bdb0-11e7-8a92-8e4cffc85351.png)
 
 
-## Provided Command list for Robot Arm
+## ロボットアーム用コマンドリスト提供
 
 ![screenshot_346](https://user-images.githubusercontent.com/4265959/32201959-15562f72-bdb0-11e7-9347-e7cda661260c.png)
